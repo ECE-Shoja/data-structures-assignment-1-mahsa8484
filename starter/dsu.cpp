@@ -5,10 +5,29 @@ vector<int> parent, sz;
 
 int findSet(int v) {
     // TODO: implement path compression
+    if (parent[v] != v) {
+        int x = findSet(parent[v]);
+        parent[v] = x;
+        return x;
+    }
+    return v;
 }
 
 void unionSet(int a, int b) {
     // TODO: implement union by size/rank
+    int pa = findSet(a);
+    int pb = findSet(b);
+
+    if (pa != pb) {
+        if (sz[pa] > sz[pb]) {
+            parent[pb] = pa;
+            sz[pa] += sz[pb];
+        } 
+        else {
+            parent[pa] = pb;
+            sz[pb] += sz[pa];
+        }
+    }
 }
 
 int main() {
